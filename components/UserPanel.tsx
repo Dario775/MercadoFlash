@@ -6,6 +6,7 @@ interface UserPanelProps {
   user: User;
   orders: Order[];
   onGoBack: () => void;
+  onEditProfile: () => void; // Nueva prop
 }
 
 const getStatusBadgeClass = (status: Order['status']) => {
@@ -21,7 +22,7 @@ const getStatusBadgeClass = (status: Order['status']) => {
   }
 };
 
-const UserPanel: React.FC<UserPanelProps> = ({ user, orders, onGoBack }) => {
+const UserPanel: React.FC<UserPanelProps> = ({ user, orders, onGoBack, onEditProfile }) => {
   return (
     <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-sm animate-fade-in">
        <button 
@@ -55,7 +56,10 @@ const UserPanel: React.FC<UserPanelProps> = ({ user, orders, onGoBack }) => {
                 <p className="font-semibold">Dirección de envío:</p>
                 <p>{user.address.street}, {user.address.city}, {user.address.zipCode}</p>
               </div>
-              <button className="w-full mt-4 px-4 py-2 text-sm font-medium text-primary border border-primary rounded-full hover:bg-blue-50 transition-colors">
+              <button 
+                onClick={onEditProfile} // Funcionalidad añadida
+                className="w-full mt-4 px-4 py-2 text-sm font-medium text-primary border border-primary rounded-full hover:bg-blue-50 transition-colors"
+              >
                 Editar Perfil
               </button>
             </div>

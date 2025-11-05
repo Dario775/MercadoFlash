@@ -10,13 +10,14 @@ import FeaturedCategories from './components/FeaturedCategories';
 import UserPanel from './components/UserPanel';
 import VendorPanel from './components/VendorPanel'; 
 import ProductForm from './components/ProductForm';
+import ProfileForm from './components/ProfileForm'; // Importar el nuevo componente
 import { mockProducts, mockCategories, mockUser, mockOrders, mockShopDetails } from './data/mockData';
 import type { Product, CartItem, User, Order, ShopDetails } from './types';
 import { FilterIcon } from './components/icons';
 
 const App: React.FC = () => {
   const [products, setProducts] = useState<Product[]>(mockProducts);
-  const [user] = useState<User>(mockUser);
+  const [user, setUser] = useState<User>(mockUser); // Hacer que el estado del usuario sea actualizable
   const [orders] = useState<Order[]>(mockOrders);
   const [shop] = useState<ShopDetails>(mockShopDetails);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -32,6 +33,8 @@ const App: React.FC = () => {
   
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Nuevo estado para el modal de perfil
 
 
   const filteredProducts = useMemo(() => {
@@ -144,16 +147,20 @@ const App: React.FC = () => {
   };
   
   const handleSaveProduct = (productData: Product) => {
+    const finalProductData = {
+      ...productData,
+      imageUrl: productData.images[0] || '',
+    };
+
     if (editingProduct) {
-      setProducts(prev => prev.map(p => p.id === editingProduct.id ? { ...p, ...productData } : p));
+      setProducts(prev => prev.map(p => p.id === editingProduct.id ? { ...p, ...finalProductData } : p));
     } else {
       const newProduct: Product = {
-        ...productData,
+        ...finalProductData,
         id: `prod-${Date.now()}`,
         shop: { id: shop.id, name: shop.name },
         rating: 0,
         reviewCount: 0,
-        images: [productData.imageUrl],
       };
       setProducts(prev => [newProduct, ...prev]);
     }
@@ -162,6 +169,19 @@ const App: React.FC = () => {
   
   const handleDeleteProduct = (productId: string) => {
     setProducts(prev => prev.filter(p => p.id !== productId));
+  };
+  
+  const handleOpenProfileModal = () => {
+    setIsProfileModalOpen(true);
+  };
+  
+  const handleCloseProfileModal = () => {
+    setIsProfileModalOpen(false);
+  };
+
+  const handleSaveProfile = (updatedUser: User) => {
+    setUser(updatedUser);
+    handleCloseProfileModal();
   };
 
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -183,6 +203,7 @@ const App: React.FC = () => {
           user={user}
           orders={orders}
           onGoBack={handleGoBackFromPanel}
+          onEditProfile={handleOpenProfileModal} // Pasar la función
         />
       );
     }
@@ -273,6 +294,16 @@ const App: React.FC = () => {
           categories={mockCategories}
         />
       )}
+      
+      {isProfileModalOpen && (
+        <ProfileForm
+          isOpen={isProfileModalOpen}
+          onClose={handleCloseProfileModal}
+          onSave={handleSaveProfile}
+          currentUser={user}
+        />
+      )}
+
 
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {renderContent()}
