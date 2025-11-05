@@ -1,15 +1,22 @@
-
 import React from 'react';
 import type { Product } from '../types';
 import { StarIcon } from './icons';
 
 interface ProductCardProps {
   product: Product;
+  onProductSelect: (product: Product) => void;
+  onAddToCart: (product: Product, quantity: number) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onProductSelect, onAddToCart }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden group transition-all duration-300 hover:shadow-lg">
+    <div 
+      className="bg-white rounded-lg shadow-sm overflow-hidden group transition-all duration-300 hover:shadow-lg flex flex-col cursor-pointer"
+      onClick={() => onProductSelect(product)}
+      onKeyPress={(e) => e.key === 'Enter' && onProductSelect(product)}
+      role="button"
+      tabIndex={0}
+    >
       <div className="relative">
         <img
           src={product.imageUrl}
@@ -25,10 +32,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
         )}
       </div>
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-grow">
         <p className="text-sm text-gray-500 mb-1">{product.category}</p>
-        <h3 className="text-md font-semibold text-gray-800 truncate group-hover:text-primary">
-          <a href="#">{product.name}</a>
+        <h3 className="text-md font-semibold text-gray-800 truncate group-hover:text-primary flex-grow">
+          {product.name}
         </h3>
         
         <div className="flex items-center mt-2">
@@ -47,8 +54,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <span className="text-sm text-gray-500 line-through ml-2">${product.originalPrice.toFixed(2)}</span>
             )}
           </div>
-          <button className="px-3 py-1.5 text-sm font-medium text-white bg-primary rounded-full hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
-            Añadir al Carrito
+          <button 
+            onClick={(e) => {
+              e.stopPropagation(); // Evita que el clic se propague al div principal
+              onAddToCart(product, 1);
+            }}
+            className="px-3 py-1.5 text-sm font-medium text-white bg-primary rounded-full hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
+          >
+            Añadir
           </button>
         </div>
       </div>

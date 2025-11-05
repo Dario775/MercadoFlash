@@ -5,9 +5,11 @@ import { SearchIcon, ShoppingCartIcon, UserIcon, MenuIcon } from './icons';
 interface HeaderProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
+  cartItemCount: number;
+  onCartClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ searchTerm, onSearchChange }) => {
+const Header: React.FC<HeaderProps> = ({ searchTerm, onSearchChange, cartItemCount, onCartClick }) => {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,10 +46,14 @@ const Header: React.FC<HeaderProps> = ({ searchTerm, onSearchChange }) => {
             <a href="#" className="p-2 text-gray-600 hover:text-primary">
               <UserIcon className="h-6 w-6" />
             </a>
-            <a href="#" className="relative p-2 text-gray-600 hover:text-primary">
+            <button onClick={onCartClick} className="relative p-2 text-gray-600 hover:text-primary">
               <ShoppingCartIcon className="h-6 w-6" />
-              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
-            </a>
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
           </div>
         </div>
         {/* Mobile Search Bar */}
