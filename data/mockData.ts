@@ -1,4 +1,4 @@
-import type { Product, Category } from '../types';
+import type { Product, Category, User, Order, ShopDetails } from '../types';
 
 export const mockCategories: Category[] = [
   { id: 'cat1', name: 'Electrónica' },
@@ -21,6 +21,7 @@ export const mockProducts: Product[] = [
     description: 'Experimenta una calidad de sonido superior sin cables. Con hasta 20 horas de autonomía, cancelación de ruido activa y un diseño ergonómico, estos auriculares son perfectos para música, podcasts y llamadas. Compatibles con todos los dispositivos Bluetooth.',
     category: 'Electrónica',
     shop: { id: 'shop1', name: 'TecnoGalaxia' },
+    stock: 50,
   },
   {
     id: 'prod2',
@@ -33,6 +34,7 @@ export const mockProducts: Product[] = [
     description: 'Diseñadas para corredores exigentes, estas zapatillas ofrecen una amortiguación excepcional y un ajuste ligero. La suela de goma de alta tracción garantiza un agarre perfecto en cualquier superficie. Ideales para entrenamientos diarios y maratones.',
     category: 'Ropa y Accesorios',
     shop: { id: 'shop2', name: 'RopaActiva' },
+    stock: 120,
   },
   {
     id: 'prod3',
@@ -45,6 +47,7 @@ export const mockProducts: Product[] = [
     description: 'Añade un toque de elegancia a tu hogar con esta maceta de cerámica de diseño minimalista. Perfecta para plantas de interior de tamaño mediano. Incluye un plato de drenaje a juego. Disponible en varios colores.',
     category: 'Hogar y Jardín',
     shop: { id: 'shop3', name: 'PulgarVerde' },
+    stock: 85,
   },
   {
     id: 'prod4',
@@ -58,6 +61,7 @@ export const mockProducts: Product[] = [
     description: 'Realiza tus posturas con total confianza sobre esta esterilla de yoga antideslizante. Fabricada con materiales ecológicos y duraderos, proporciona una amortiguación óptima para tus articulaciones. Incluye correa de transporte.',
     category: 'Deportes y Aire Libre',
     shop: { id: 'shop2', name: 'RopaActiva' },
+    stock: 90,
   },
   {
     id: 'prod5',
@@ -70,6 +74,7 @@ export const mockProducts: Product[] = [
     description: 'Un best-seller internacional que te atrapará desde la primera página. Una novela sobre las decisiones, el arrepentimiento y las segundas oportunidades. Edición en tapa blanda con solapas.',
     category: 'Libros',
     shop: { id: 'shop4', name: 'RincónDelLector' },
+    stock: 200,
   },
   {
     id: 'prod6',
@@ -82,6 +87,7 @@ export const mockProducts: Product[] = [
     description: 'Transforma la iluminación de tu hogar. Controla el color, la intensidad y los horarios desde tu smartphone o con comandos de voz. Compatible con Alexa y Google Assistant. Fácil de instalar, no requiere hub.',
     category: 'Electrónica',
     shop: { id: 'shop1', name: 'TecnoGalaxia' },
+    stock: 150,
   },
   {
     id: 'prod7',
@@ -94,6 +100,7 @@ export const mockProducts: Product[] = [
     description: 'Una camiseta básica imprescindible, fabricada con algodón 100% orgánico certificado. Suave al tacto, transpirable y respetuosa con el medio ambiente. Corte clásico que sienta bien a todo el mundo.',
     category: 'Ropa y Accesorios',
     shop: { id: 'shop5', name: 'EcoHilos' },
+    stock: 300,
   },
   {
     id: 'prod8',
@@ -106,6 +113,7 @@ export const mockProducts: Product[] = [
     description: 'Mantén tus bebidas frías durante 24 horas o calientes durante 12. Esta botella de doble pared de acero inoxidable es perfecta para el gimnasio, la oficina o tus excursiones. Libre de BPA y con tapón antigoteo.',
     category: 'Deportes y Aire Libre',
     shop: { id: 'shop2', name: 'RopaActiva' },
+    stock: 180,
   },
   {
     id: 'prod9',
@@ -119,6 +127,7 @@ export const mockProducts: Product[] = [
     description: 'Sumérgete en tu música con la tecnología de cancelación de ruido líder en el mercado. Diseño circumaural cómodo para un uso prolongado y hasta 30 horas de reproducción con una sola carga. Incluye estuche de viaje.',
     category: 'Electrónica',
     shop: { id: 'shop1', name: 'TecnoGalaxia' },
+    stock: 75,
   },
   {
     id: 'prod10',
@@ -131,6 +140,7 @@ export const mockProducts: Product[] = [
     description: 'Una épica aventura espacial que explora los límites de la humanidad y la inteligencia artificial. Edición de coleccionista en tapa dura con ilustraciones exclusivas. Ganadora de múltiples premios literarios.',
     category: 'Libros',
     shop: { id: 'shop4', name: 'RincónDelLector' },
+    stock: 130,
   },
   {
     id: 'prod11',
@@ -143,6 +153,7 @@ export const mockProducts: Product[] = [
     description: 'Cuida tu espalda durante las largas jornadas de trabajo. Esta silla ergonómica ofrece soporte lumbar ajustable, reposabrazos 4D y un mecanismo de reclinación sincronizada. Malla transpirable para mayor confort.',
     category: 'Hogar y Jardín',
     shop: { id: 'shop6', name: 'ZonaDeConfort' },
+    stock: 40,
   },
   {
     id: 'prod12',
@@ -155,5 +166,97 @@ export const mockProducts: Product[] = [
     description: 'Prepárate para la aventura con esta mochila de 40L. Fabricada con materiales resistentes e impermeables, cuenta con múltiples compartimentos, espalda acolchada y transpirable, y funda para la lluvia integrada. Ideal para escapadas de fin de semana.',
     category: 'Deportes y Aire Libre',
     shop: { id: 'shop2', name: 'RopaActiva' },
+    stock: 60,
   },
+];
+
+export const mockUser: User = {
+  id: 'user1',
+  name: 'Juan Pérez',
+  email: 'juan.perez@example.com',
+  address: {
+    street: 'Calle Falsa 123',
+    city: 'Springfield',
+    zipCode: 'S1234'
+  }
+};
+
+export const mockShopDetails: ShopDetails = {
+  id: 'shop1',
+  name: 'TecnoGalaxia',
+  description: 'Tu tienda de confianza para los últimos gadgets y dispositivos electrónicos. Calidad y servicio al mejor precio.',
+  logoUrl: 'https://picsum.photos/id/1074/200/200',
+  memberSince: '2022-03-15',
+};
+
+export const mockOrders: Order[] = [
+  {
+    id: 'ORD-001',
+    date: '2024-07-15',
+    status: 'Entregado',
+    total: 124.98,
+    customerName: 'Elena García',
+    items: [
+      {
+        id: 'prod1', // Belongs to TecnoGalaxia
+        name: 'Auriculares Bluetooth Inalámbricos',
+        imageUrl: 'https://picsum.photos/id/1082/100/100',
+        price: 99.99,
+        quantity: 1,
+      },
+      {
+        id: 'prod3',
+        name: 'Maceta de Cerámica Moderna',
+        imageUrl: 'https://picsum.photos/id/106/100/100',
+        price: 24.99,
+        quantity: 1,
+      }
+    ]
+  },
+  {
+    id: 'ORD-002',
+    date: '2024-07-28',
+    status: 'En Camino',
+    total: 89.99,
+    customerName: 'Carlos Rodriguez',
+    items: [
+       {
+        id: 'prod12',
+        name: 'Mochila de Senderismo Impermeable',
+        imageUrl: 'https://picsum.photos/id/312/100/100',
+        price: 89.99,
+        quantity: 1,
+      },
+    ]
+  },
+  {
+    id: 'ORD-003',
+    date: '2024-08-01',
+    status: 'Procesando',
+    total: 188.94,
+    customerName: 'Ana Martinez',
+    items: [
+      {
+        id: 'prod7',
+        name: 'Camiseta de Algodón Orgánico',
+        imageUrl: 'https://picsum.photos/id/357/100/100',
+        price: 29.95,
+        quantity: 2,
+      },
+       {
+        id: 'prod6', // Belongs to TecnoGalaxia
+        name: 'Bombilla LED WiFi Inteligente',
+        imageUrl: 'https://picsum.photos/id/431/100/100',
+        price: 19.99,
+        quantity: 1,
+      },
+      {
+        id: 'prod9', // Belongs to TecnoGalaxia
+        name: 'Auriculares con Cancelación de Ruido',
+        imageUrl: 'https://picsum.photos/id/119/100/100',
+        price: 149.00,
+        quantity: 1,
+      },
+    ]
+  }
 ];

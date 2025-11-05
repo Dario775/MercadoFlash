@@ -44,7 +44,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onGoBack, onAddT
   const handleQuantityChange = (amount: number) => {
     setQuantity(prev => {
       const newQuantity = prev + amount;
-      return newQuantity > 0 ? newQuantity : 1;
+      if (newQuantity < 1) return 1;
+      if (newQuantity > product.stock) return product.stock;
+      return newQuantity;
     });
   };
 
@@ -160,6 +162,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onGoBack, onAddT
               <span className="text-lg text-gray-400 line-through ml-3">${product.originalPrice.toFixed(2)}</span>
             )}
           </div>
+
+          {product.stock > 0 && product.stock <= 10 && (
+            <div className="mb-6 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-r-lg" role="alert">
+              <p className="font-bold">¡Quedan pocas unidades!</p>
+              <p className="text-sm">Solo quedan {product.stock} disponibles en stock.</p>
+            </div>
+          )}
           
           <p className="text-gray-700 leading-relaxed">{product.description}</p>
           

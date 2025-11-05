@@ -53,6 +53,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onProductSelect, onA
             {product.originalPrice && (
               <span className="text-sm text-gray-500 line-through ml-2">${product.originalPrice.toFixed(2)}</span>
             )}
+            {product.stock > 0 && product.stock <= 10 && (
+                <p className="text-orange-600 text-xs font-semibold mt-1">¡Pocas unidades!</p>
+            )}
           </div>
           <button 
             onClick={(e) => {

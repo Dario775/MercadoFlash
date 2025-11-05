@@ -1,7 +1,11 @@
 
 import React from 'react';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onVendorPanelClick: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onVendorPanelClick }) => {
   return (
     <footer className="bg-gray-800 text-white mt-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -32,7 +36,11 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold mb-4">Para Vendedores</h3>
             <ul className="space-y-2 text-gray-300">
               <li><a href="#" className="hover:text-white">Cómo Vender</a></li>
-              <li><a href="#" className="hover:text-white">Panel de Vendedor</a></li>
+              <li>
+                <button onClick={onVendorPanelClick} className="text-left hover:text-white">
+                  Panel de Vendedor
+                </button>
+              </li>
               <li><a href="#" className="hover:text-white">Precios</a></li>
               <li><a href="#" className="hover:text-white">Políticas de Vendedor</a></li>
             </ul>
