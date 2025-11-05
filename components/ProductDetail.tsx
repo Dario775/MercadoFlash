@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import type { Product } from '../types';
 import { 
   StarIcon, ChevronLeftIcon, PlusIcon, MinusIcon, HeartIcon, 
@@ -13,6 +13,8 @@ interface ProductDetailProps {
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product, onGoBack, onAddToCart }) => {
   const [activeImage, setActiveImage] = useState(product.images[0]);
+  const [displayedImage, setDisplayedImage] = useState(product.images[0]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -21,6 +23,23 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onGoBack, onAddT
   const [postalCode, setPostalCode] = useState('');
   const [shippingInfo, setShippingInfo] = useState<{cost: number; date: string} | null>(null);
   const [isCalculatingShipping, setIsCalculatingShipping] = useState(false);
+
+  const handleImageChange = (newImage: string) => {
+    if (newImage === activeImage || isTransitioning) return;
+    setActiveImage(newImage);
+    setIsTransitioning(true);
+  };
+
+  useEffect(() => {
+    if (isTransitioning) {
+      const timer = setTimeout(() => {
+        setDisplayedImage(activeImage);
+        setIsZoomed(false);
+        setIsTransitioning(false);
+      }, 300); // Duración de la transición de opacidad
+      return () => clearTimeout(timer);
+    }
+  }, [activeImage, isTransitioning]);
 
   const handleQuantityChange = (amount: number) => {
     setQuantity(prev => {
@@ -78,11 +97,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onGoBack, onAddT
                 {product.images.map((img, index) => (
                   <button 
                     key={index} 
-                    className={`w-16 h-16 rounded-lg overflow-hidden border-2 flex-shrink-0 ${activeImage === img ? 'border-primary' : 'border-gray-200'}`}
-                    onClick={() => {
-                      setActiveImage(img);
-                      setIsZoomed(false);
-                    }}
+                    className={`w-16 h-16 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-colors ${activeImage === img ? 'border-primary' : 'border-gray-200'}`}
+                    onClick={() => handleImageChange(img)}
                   >
                     <img src={img} alt={`${product.name} thumbnail ${index + 1}`} className="w-full h-full object-cover" />
                   </button>
@@ -100,9 +116,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onGoBack, onAddT
                 onKeyPress={(e) => e.key === 'Enter' && setIsZoomed(!isZoomed)}
               >
                 <img 
-                  src={activeImage} 
+                  src={displayedImage} 
                   alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-300 ease-out"
+                  className={`w-full h-full object-cover transition-transform duration-300 ease-out transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
                   style={{
                     transform: isZoomed ? 'scale(2)' : 'scale(1)',
                     transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
