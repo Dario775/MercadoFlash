@@ -10,14 +10,16 @@ import FeaturedCategories from './components/FeaturedCategories';
 import UserPanel from './components/UserPanel';
 import VendorPanel from './components/VendorPanel'; 
 import ProductForm from './components/ProductForm';
-import ProfileForm from './components/ProfileForm'; // Importar el nuevo componente
+import ProfileForm from './components/ProfileForm';
+import HowToSell from './components/HowToSell';
+import AboutUs from './components/AboutUs'; // Importar AboutUs
 import { mockProducts, mockCategories, mockUser, mockOrders, mockShopDetails } from './data/mockData';
 import type { Product, CartItem, User, Order, ShopDetails } from './types';
 import { FilterIcon } from './components/icons';
 
 const App: React.FC = () => {
   const [products, setProducts] = useState<Product[]>(mockProducts);
-  const [user, setUser] = useState<User>(mockUser); // Hacer que el estado del usuario sea actualizable
+  const [user, setUser] = useState<User>(mockUser);
   const [orders] = useState<Order[]>(mockOrders);
   const [shop] = useState<ShopDetails>(mockShopDetails);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -30,11 +32,13 @@ const App: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isUserPanelOpen, setIsUserPanelOpen] = useState(false);
   const [isVendorPanelOpen, setIsVendorPanelOpen] = useState(false);
+  const [isHowToSellOpen, setIsHowToSellOpen] = useState(false);
+  const [isAboutUsOpen, setIsAboutUsOpen] = useState(false); // Nuevo estado
   
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Nuevo estado para el modal de perfil
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
 
   const filteredProducts = useMemo(() => {
@@ -83,6 +87,8 @@ const App: React.FC = () => {
     setSelectedProduct(product);
     setIsUserPanelOpen(false);
     setIsVendorPanelOpen(false);
+    setIsHowToSellOpen(false);
+    setIsAboutUsOpen(false);
     window.scrollTo(0, 0);
   };
 
@@ -93,19 +99,49 @@ const App: React.FC = () => {
   const handleGoBackFromPanel = () => {
     setIsUserPanelOpen(false);
     setIsVendorPanelOpen(false);
+    setIsHowToSellOpen(false);
+    setIsAboutUsOpen(false);
   };
 
   const handleToggleUserPanel = () => {
     setIsUserPanelOpen(prev => !prev);
     setSelectedProduct(null);
     setIsVendorPanelOpen(false);
+    setIsHowToSellOpen(false);
+    setIsAboutUsOpen(false);
   };
 
   const handleToggleVendorPanel = () => {
     setIsVendorPanelOpen(prev => !prev);
     setSelectedProduct(null);
     setIsUserPanelOpen(false);
+    setIsHowToSellOpen(false);
+    setIsAboutUsOpen(false);
   };
+  
+  const handleToggleHowToSell = () => {
+    setIsHowToSellOpen(prev => !prev);
+    setSelectedProduct(null);
+    setIsUserPanelOpen(false);
+    setIsVendorPanelOpen(false);
+    setIsAboutUsOpen(false);
+  };
+
+  const handleToggleAboutUs = () => {
+    setIsAboutUsOpen(prev => !prev);
+    setSelectedProduct(null);
+    setIsUserPanelOpen(false);
+    setIsVendorPanelOpen(false);
+    setIsHowToSellOpen(false);
+  };
+  
+  const handleStartSelling = () => {
+    setIsHowToSellOpen(false);
+    setIsVendorPanelOpen(true);
+    setSelectedProduct(null);
+    setIsUserPanelOpen(false);
+    setIsAboutUsOpen(false);
+  }
 
   const handleAddToCart = (productToAdd: Product, quantity: number) => {
     setCartItems(prevItems => {
@@ -203,7 +239,7 @@ const App: React.FC = () => {
           user={user}
           orders={orders}
           onGoBack={handleGoBackFromPanel}
-          onEditProfile={handleOpenProfileModal} // Pasar la función
+          onEditProfile={handleOpenProfileModal}
         />
       );
     }
@@ -218,6 +254,23 @@ const App: React.FC = () => {
           onAddProduct={() => handleOpenProductModal(null)}
           onEditProduct={(product) => handleOpenProductModal(product)}
           onDeleteProduct={handleDeleteProduct}
+        />
+      );
+    }
+
+    if (isHowToSellOpen) {
+      return (
+        <HowToSell 
+          onGoBack={handleToggleHowToSell}
+          onStartSelling={handleStartSelling}
+        />
+      );
+    }
+
+    if (isAboutUsOpen) {
+      return (
+        <AboutUs 
+          onGoBack={handleToggleAboutUs}
         />
       );
     }
@@ -309,7 +362,7 @@ const App: React.FC = () => {
         {renderContent()}
       </main>
       
-      <Footer onVendorPanelClick={handleToggleVendorPanel} />
+      <Footer onVendorPanelClick={handleToggleVendorPanel} onHowToSellClick={handleToggleHowToSell} onAboutUsClick={handleToggleAboutUs} />
     </div>
   );
 };

@@ -1,11 +1,12 @@
-
 import React from 'react';
 
 interface FooterProps {
   onVendorPanelClick: () => void;
+  onHowToSellClick: () => void;
+  onAboutUsClick: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ onVendorPanelClick }) => {
+const Footer: React.FC<FooterProps> = ({ onVendorPanelClick, onHowToSellClick, onAboutUsClick }) => {
   return (
     <footer className="bg-gray-800 text-white mt-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -14,7 +15,11 @@ const Footer: React.FC<FooterProps> = ({ onVendorPanelClick }) => {
           <div>
             <h3 className="text-lg font-semibold mb-4">MercadoPlaza</h3>
             <ul className="space-y-2 text-gray-300">
-              <li><a href="#" className="hover:text-white">Sobre Nosotros</a></li>
+              <li>
+                <button onClick={onAboutUsClick} className="text-left hover:text-white">
+                  Sobre Nosotros
+                </button>
+              </li>
               <li><a href="#" className="hover:text-white">Empleo</a></li>
               <li><a href="#" className="hover:text-white">Prensa</a></li>
             </ul>
@@ -35,7 +40,11 @@ const Footer: React.FC<FooterProps> = ({ onVendorPanelClick }) => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Para Vendedores</h3>
             <ul className="space-y-2 text-gray-300">
-              <li><a href="#" className="hover:text-white">Cómo Vender</a></li>
+              <li>
+                <button onClick={onHowToSellClick} className="text-left hover:text-white">
+                  Cómo Vender
+                </button>
+              </li>
               <li>
                 <button onClick={onVendorPanelClick} className="text-left hover:text-white">
                   Panel de Vendedor
